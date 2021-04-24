@@ -1,40 +1,43 @@
 import 'package:DevQuiz/challenge/widgets/awnser/awnser_widget.dart';
 import 'package:DevQuiz/core/core.dart';
+import 'package:DevQuiz/shared/models/question_model.dart';
 import 'package:flutter/material.dart';
 
 class QuizWidget extends StatelessWidget {
-  final String title;
+  final QuestionModel question;
   QuizWidget({
     Key? key,
-    required this.title
+    required this.question,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: AppTextStyles.heading,
+          SizedBox(
+            height: 64,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 60,
+            ),
+            child: Text(
+              question.title,
+              style: AppTextStyles.heading,
+            ),
           ),
           SizedBox(
             height: 24,
           ),
-          AwnserWidget(
-            isRight: true,
-            isSelected: true,
-            title: "Possibilita a criação de aplicativos compilados nativamente"
-          ),
-          AwnserWidget(
-            title: "Possibilita a criação de aplicativos compilados nativamente"
-          ),
-          AwnserWidget(
-            title: "Possibilita a criação de aplicativos compilados nativamente"
-          ),
-          AwnserWidget(
-            title: "Possibilita a criação de aplicativos compilados nativamente"
-          ),
+          ...question.awnsers.map(
+            (e) => AwnserWidget(
+              isRight: e.isRight,
+              title: e.title,
+            )
+          ).toList(),
         ],
       ),
     );
